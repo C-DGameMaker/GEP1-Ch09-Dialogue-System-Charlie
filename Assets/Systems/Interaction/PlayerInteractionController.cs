@@ -13,10 +13,12 @@ public class PlayerInteractionController : MonoBehaviour
     [SerializeField] private GameObject debugCurrentInteractable;
 
     private UIManager uiManager;
+    private DialogueManager dialogueManager;
 
     private void Start()
     {
         uiManager = ServiceHub.Instance.UIManager;
+        dialogueManager = ServiceHub.Instance.DialogueManager;
     }
 
 
@@ -49,15 +51,18 @@ public class PlayerInteractionController : MonoBehaviour
     {
         if (context.performed)
         {
-            
-
+            if (dialogueManager.inDialogue == true)
+            {
+                dialogueManager.DisplayNextSentence();
+            }
             // if targetInteractable is not empty we can attempt to interact
-            if (targetInteractable != null)
+            else if (targetInteractable != null)
             {
                 uiManager.HidePrompt();
 
                 targetInteractable.Interact();
             }  
+            
         }
     }
 
